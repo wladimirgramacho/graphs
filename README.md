@@ -1,5 +1,5 @@
 # graphs :balloon:
-This code was created by Wladimir Ganzelevitch Mesquita Gramacho. This is the implementation of the first project of the course Graph: Theory and Applications @ UnB during the 1st semester of 2018.
+This code was created by Wladimir Gramacho and Leonardo de Almeida. This is the implementation of the 1st project of the course Graph: Theory and Applications @ UnB during the 1st semester of 2018.
 
 ----
 The file karate.gml contains the network of friendships between the 34

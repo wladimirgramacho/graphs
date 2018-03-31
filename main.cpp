@@ -1,8 +1,8 @@
 /***********************************************************\
 |*                                                         *|
 |*   Teoria e Aplicação de Grafos, Turma A, 1/2018         *|
-|*   Aluno: Wladimir Ganzelevitch Mesquita Gramacho        *|
-|*   Matrícula: 15/0048718                                 *|
+|*   Grupo:     Wladimir Gramacho & Leonardo de Almeida    *|
+|*   Matrícula: 15/0048718        & 15/0135491             *|
 |*   Projeto 1: Karate Classroom - Node Degrees & Cliques  *|
 |*                                                         *|
 \***********************************************************/
