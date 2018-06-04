@@ -175,22 +175,13 @@ void school_makes_choice(Professor * p_cur, School * s_cur, Professor ** profArr
 */
 void gale_shapley(Professor ** profArray, School ** schArray) {
     int fprof_id, provoked_school;
-    int aux;
     Professor * p_cur;
     School * s_cur;
 
     fprof_id = getFreeProfessor(profArray);
     while (fprof_id != -1) {
         p_cur = profArray[fprof_id];
-        aux = p_cur -> applies();
-        /* Trata o caso em que a lista do professor atual acabou */
-        // if(aux >= 5) {
-        //
-        //   // fprof_id = getFreeProfessor(profArray);
-        //   // p_cur = profArray[fprof_id];
-        //   // aux = p_cur -> applies();
-        // }
-        provoked_school = aux - 1;
+        provoked_school = p_cur -> applies() - 1;
         s_cur = schArray[provoked_school];
 
         if (s_cur -> isFree()) {
