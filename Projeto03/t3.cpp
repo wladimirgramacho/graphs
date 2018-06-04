@@ -14,7 +14,7 @@
 #define FILE_NAME "entrada.txt"
 #define NUM_PROFESSORS 100
 #define NUM_SCHOOLS 50
-#define MAX_PROFS 2
+// #define MAX_PROFS 2
 
 using namespace std;
 
@@ -68,15 +68,17 @@ class School {
     public:
         int id;
         int req_skills;
-        int linked_to[MAX_PROFS];
+        // int linked_to[MAX_PROFS];
+        vector<int> linked_to;
         int vagas;
 
         School (int _id, int _sk, int vagas) {
             this->id = _id;
             this->req_skills = _sk;
             this->vagas = vagas;
-            for (int i = 0; i < MAX_PROFS; i++) {
-                this->linked_to[i] = -1;
+            for (int i = 0; i < vagas; i++) {
+                // this->linked_to[i] = -1;
+                linked_to.push_back(-1);
             }
         }
 
@@ -131,7 +133,7 @@ void make_new_engagement(int fprof_id, int index, School * s_cur, Professor * p_
 }
 
 void become_engaged(Professor * p_cur, School * s_cur, int fprof_id) {
-    for (int i = 0; i < MAX_PROFS; i++) {
+    for (int i = 0; i < s_cur -> vagas; i++) {
         if (s_cur -> linked_to[i] == -1) {
             make_new_engagement(fprof_id, i, s_cur, p_cur);
             break;
@@ -151,7 +153,7 @@ void break_engagement(School * s_cur, int index, Professor ** profArray) {
 void school_makes_choice(Professor * p_cur, School * s_cur, Professor ** profArray, int fprof_id) {
     Professor * p_engaged;
 
-    for (int i = 0; i < MAX_PROFS; i++) {
+    for (int i = 0; i < s_cur -> vagas; i++) {
         p_engaged = profArray[s_cur -> linked_to[i]];
         if (s_cur -> prefers_new_professor(p_cur, p_engaged) && (p_engaged -> idx < 4)) { // sucesso do professor em conseguir uma vaga em relação ao seu concorrente
             break_engagement(s_cur, i, profArray);
@@ -249,8 +251,8 @@ int main(int argc, char const *argv[]) {
         schArray[i] = new School(id, skill, vagas);
     }
 
-    // gale_shapley(profArray, schArray);
-    // show_results(profArray, schArray);
+    gale_shapley(profArray, schArray);
+    show_results(profArray, schArray);
     fp.close();
 
     return 0;
