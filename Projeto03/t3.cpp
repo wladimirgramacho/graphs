@@ -50,7 +50,7 @@ class Professor {
 
         int applies(void) {
             this->idx++;
-            /* Nesse caso, a lista de preferencias do professor acaba e ele nao será alocado. */
+            /* Trata o caso em que a lista de preferencias acabou */
             if (this->idx >= 5) {
               this->linked_to = 101;
               return this->idx;
@@ -184,11 +184,12 @@ void gale_shapley(Professor ** profArray, School ** schArray) {
         p_cur = profArray[fprof_id];
         aux = p_cur -> applies();
         /* Trata o caso em que a lista do professor atual acabou */
-        if(aux >= 5) {
-          fprof_id = getFreeProfessor(profArray);
-          p_cur = profArray[fprof_id];
-          aux = p_cur -> applies();
-        }
+        // if(aux >= 5) {
+        //
+        //   // fprof_id = getFreeProfessor(profArray);
+        //   // p_cur = profArray[fprof_id];
+        //   // aux = p_cur -> applies();
+        // }
         provoked_school = aux - 1;
         s_cur = schArray[provoked_school];
 
