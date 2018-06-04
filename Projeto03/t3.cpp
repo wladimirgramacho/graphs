@@ -241,7 +241,7 @@ int main(int argc, char const *argv[]) {
     }
 
     /* Faz a leitura do arquivo filtrando as informacoes das escolas  */
-    fp.seekg (3719, ios_base::beg);
+    fp.seekg (3723, ios::beg);
     for (int i = 0; i < NUM_SCHOOLS; i++) {
         getline (fp, line);
         sscanf (line.c_str(), "(E%d):(%d):(%d)", &id, &skill, &vagas);
