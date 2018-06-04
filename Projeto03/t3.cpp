@@ -5,7 +5,7 @@
         g++ -std=c++11 -c galeshapley.cpp
         g++ -g -std=c++11 galeshapley.o -o galeshapley
         ./galeshapley
-    OBS: é necessario que arquivo 'input.txt' esteja no mesmo diretorio
+    OBS: é necessario que arquivo 'entrada.txt' esteja no mesmo diretorio
 
  */
 
@@ -47,8 +47,11 @@ class Professor {
 
         int applies(void) {
             this->idx++;
-            if (this->idx >= 5)
-                throw invalid_argument ("Professor.applies: out of range");
+            /* Nesse caso, a lista de preferencias do professor acaba e ele nao será alocado. */
+            if (this->idx >= 5) {
+              this->linked_to = 101;
+              return this->idx;
+            }
             return prefs[this->idx];
         }
 
@@ -68,7 +71,6 @@ class School {
     public:
         int id;
         int req_skills;
-        // int linked_to[MAX_PROFS];
         vector<int> linked_to;
         int vagas;
 
@@ -77,7 +79,6 @@ class School {
             this->req_skills = _sk;
             this->vagas = vagas;
             for (int i = 0; i < vagas; i++) {
-                // this->linked_to[i] = -1;
                 linked_to.push_back(-1);
             }
         }
@@ -168,18 +169,24 @@ void school_makes_choice(Professor * p_cur, School * s_cur, Professor ** profArr
     entre escolas e professores. A implementacao favorece as escolas, uma vez
     que a mesma tem a possibilidade de, dado dois professores, escolher o que
     mais lhe interessa.
-
 */
 void gale_shapley(Professor ** profArray, School ** schArray) {
     int fprof_id, provoked_school;
+    int aux;
     Professor * p_cur;
     School * s_cur;
 
     fprof_id = getFreeProfessor(profArray);
     while (fprof_id != -1) {
-        cout << fprof_id << endl;
         p_cur = profArray[fprof_id];
-        provoked_school = p_cur -> applies() - 1;
+        aux = p_cur -> applies();
+        /* Trata o caso em que a lista do professor atual acabou */
+        if(aux >= 5) {
+          fprof_id = getFreeProfessor(profArray);
+          p_cur = profArray[fprof_id];
+          aux = p_cur -> applies();
+        }
+        provoked_school = aux - 1;
         s_cur = schArray[provoked_school];
 
         if (s_cur -> isFree()) {
@@ -191,28 +198,24 @@ void gale_shapley(Professor ** profArray, School ** schArray) {
     }
 }
 
-void init(int * distribution) {
-    for (int i = 0; i < 5; i++) {
-        distribution[i] = 0;
-    }
-}
-
-void show_results(Professor ** profArray, School ** schArray) {
-    string schools[] = {"primeira", "segunda", "terceira", "quarta", "quinta"};
-    int distribution[5];
-
-    init(distribution);
-    for (int i = 0; i < NUM_PROFESSORS; i++) {
-        distribution[profArray[i] -> idx]++;
-    }
-    for (int i = 0; i < NUM_SCHOOLS; i++) {
-        printf("\t[E%2d] => [P%3d, P%3d]\n", schArray[i]->id, schArray[i]->linked_to[0]+1, schArray[i]->linked_to[1]+1);
+/* Mostra os resultados obtidos na tela */
+void result(Professor ** profArray, School ** schArray) {
+  cout << "Relacao de Escolas" << endl;
+  for(int i = 0; i < NUM_SCHOOLS; i++) {
+    printf("[E%2d] => ", schArray[i] -> id);
+    for(int j = 0; j < schArray[i] -> vagas; j++) {
+      if(!(schArray[i] -> linked_to[j] + 1) == 0) {
+        printf("[P%2d]", schArray[i] -> linked_to[j] + 1);
+      }
     }
     cout << endl;
-    cout << "Resumo: " << endl;
-    for (int i = 0; i < 5; i++) {
-        printf("\t + %2d professores contratados na %s escola\n", distribution[i], schools[i].c_str());
+  }
+  cout << "Professores Alocados" << endl;
+  for(int i = 0; i < NUM_PROFESSORS; i++) {
+    if(profArray[i] -> linked_to != 101) {
+      printf("[P%2d]\n", profArray[i] -> id);
     }
+  }
 }
 
 int main(int argc, char const *argv[]) {
@@ -252,7 +255,7 @@ int main(int argc, char const *argv[]) {
     }
 
     gale_shapley(profArray, schArray);
-    show_results(profArray, schArray);
+    result(profArray, schArray);
     fp.close();
 
     return 0;
