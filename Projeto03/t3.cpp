@@ -1,4 +1,5 @@
 /*
+    Teoria e Aplicação de Grafos, Turma A, 1/2018
     Instrucoes de compilacao:
     1. Abrir o terminal
     2. Digitar os seguintes comandos:
@@ -7,6 +8,9 @@
         ./galeshapley
     OBS: é necessario que arquivo 'entrada.txt' esteja no mesmo diretorio
 
+    Grupo:
+      Leonardo de Almeida - 15/0135491
+      Wladimir Gramacho - 15/0048718
  */
 
 #include <bits/stdc++.h>
@@ -14,7 +18,6 @@
 #define FILE_NAME "entrada.txt"
 #define NUM_PROFESSORS 100
 #define NUM_SCHOOLS 50
-// #define MAX_PROFS 2
 
 using namespace std;
 
